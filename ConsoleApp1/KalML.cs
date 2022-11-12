@@ -9,11 +9,12 @@ namespace KalML
     public class Network
     {
 
-        Random random = new Random();
+        Random random { get; }
         private Layer[] layers;
         private int[] sizes;
         public Network(int[] sizes)
         {
+            random = new Random();
             this.sizes = sizes;
             layers = new Layer[sizes.Length];
             layers[0] = new Layer(sizes[0], 1);
@@ -22,8 +23,8 @@ namespace KalML
                 layers[i] = new Layer(sizes[i], sizes[i-1]);
             }
         }
-
-        public Network CopyWithChanges()
+        private Network() { }//убрал возможность вызова пустого конструктора
+        public Network CopyWithChanges()//я знаю про BackPropagation но ради эксперимента хочу сделать так
         {
             Network NewNetwork = new Network(sizes);
 

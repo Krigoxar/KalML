@@ -11,7 +11,7 @@ namespace KalML
         static void Main(string[] args)
         {
             Trainer trainer = new Trainer();
-            trainer.test();
+            trainer.StartTraining();
             Console.Read();
         }
     }

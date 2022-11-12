@@ -10,9 +10,12 @@ namespace KalML
 {
     internal class Trainer
     {
-
-        MNIST mNIST = new MNIST();
-        private double[] compresImage(double[] input)
+        MNIST mNIST { get; }
+        public Trainer()
+        {
+            mNIST = new MNIST();
+        }
+        private double[] compresImage(double[] input)// Групировка пикселей
         {
             double[] res = new double[49];
             for (int x = 0; x < 7; x++)
@@ -32,27 +35,9 @@ namespace KalML
                     res[x + (y * 7)] /= 16;
                 }
             }
-            /*
-            for (int i = 0; i < 7; i++)
-            {
-                for (int j = 0; j < 7; j++)
-                {
-                    if (res[j*7 + i]>0.5)
-                    {
-                        Console.Write(" ");
-                    }
-                    else
-                    {
-                        Console.Write("0");
-                    }
-                }
-                Console.Write("\n");
-            }
-            Console.Write("\n");
-            */
             return res;
         }
-        public struct AnswerStruct
+        public struct AnswerStruct// удобная структура для хранения данных о прогоне сети
         {
             public bool value;
             public int sampleNumber;
@@ -71,7 +56,6 @@ namespace KalML
                 }
             }
         }
-
         public struct ResultStruct
         {
             public double RightAnswersPercent;
@@ -82,7 +66,6 @@ namespace KalML
                 return "Колво правильных ответов: " + RightAnswersPercent * 100.0 + " Счёт: " + Score;
             }
         }
-
         public AnswerStruct Test(int SampleNumber, Network NewNetwork)
         {
             double[] a = compresImage(mNIST.Training.Item1[SampleNumber].ToDense());
@@ -111,7 +94,7 @@ namespace KalML
             answer.answCount = count;
             return answer;
         }
-        public void test()
+        public void StartTraining()
         {
             Network BestNetwork = null;
             Tuple<Network, ResultStruct>[] NetworksAndRess = new Tuple<Network, ResultStruct>[50];
